@@ -1,21 +1,29 @@
 package tddmicroexercises.textconvertor;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
+/*
+    DIP: Dependency Inversion Principle violated fix,
+    the HtmlTextConverter was dependent of read text of a file and should be dependent of Abstraction
+
+    OCP: Open Closed Principle violated fixed,
+    The HtmlTextConverter would be changed if it's necessary to implement more sources of text not only file text
+*/
 public class HtmlTextConverter
 {
-    private String fullFilenameWithPath;
+    private final TextReader source;
 
-    public HtmlTextConverter(String fullFilenameWithPath)
-    {
-        this.fullFilenameWithPath = fullFilenameWithPath;
-    }
+	public HtmlTextConverter(TextReader source) {
+		this.source = source;
+	}
 
-    public String convertToHtml() throws IOException{
+	public TextReader getSource() {
+		return source;
+	}
+
+	public String convertToHtml() throws Exception {
     
-	    BufferedReader reader = new BufferedReader(new FileReader(fullFilenameWithPath));
+	    BufferedReader reader = new BufferedReader(getSource().getTextReader());
 	    
 	    String line = reader.readLine();
 	    String html = "";
@@ -28,8 +36,4 @@ public class HtmlTextConverter
 	    return html;
 
     }
-
-	public String getFilename() {
-		return this.fullFilenameWithPath;
-	}
 }
