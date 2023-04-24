@@ -1,16 +1,18 @@
 package tddmicroexercises.turnticketdispenser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class TicketDispenserTest {
 
     @Test
-    void foo() {
-        TicketDispenser dispenser = new TicketDispenser();
-        TurnTicket ticket = dispenser.getTurnTicket();
-        assertEquals(-1, ticket.getTurnNumber());
+    void twoOrMoreTicketDispensersShouldIncrementTheLastIssuedNumber() {
+        TicketDispenser dispenser1 = new TicketDispenser(new TurnNumberSequence());
+        TicketDispenser dispenser2 = new TicketDispenser(new TurnNumberSequence());
+        TurnTicket ticket1 = dispenser1.getTurnTicket();
+        TurnTicket ticket2 = dispenser2.getTurnTicket();
+        assertTrue(ticket1.getTurnNumber() < ticket2.getTurnNumber());
     }
 
 }
